@@ -1,0 +1,62 @@
+<%- include('../../partials/header.ejs') %>
+
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('assets/img/contact-bg.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="page-heading">
+                        <h1>Add New Blog</h1>
+                        <span class="subheading" style="color: red;">Only for Admins</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <label for="blogTitle">Blog Title</label>
+                <input type="text" class="form-control" id="blogTitle" placeholder="add new blog title">
+            </div>
+            <div class="form-group">
+                <label for="blogComSentence">Blog Commercial Sentence</label>
+                <input type="text" class="form-control" id="blogComSentence"
+                    placeholder="add new blog commercial sentence">
+            </div>
+            <div class="form-group">
+                <label for="blogComImage">Blog Commercial Image</label>
+                <input type="text" class="form-control" id="blogComImage" placeholder="add new blog commercial image">
+            </div>
+            <textarea name="editor" id="myTextArea"></textarea>
+            <button id="btnAddBlog" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
+        </form>
+    </div>
+    
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('editor');
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#btnAddBlog").click(function () {
+                
+                var data = {
+                    title: $("#blogTitle").val(),
+                    comSentence: $("#blogComSentence").val(),
+                    comImage: $("#blogComImage").val(),
+                    blog: CKEDITOR.instances.myTextArea.getData(),
+                }
+               
+
+                $.post('addnewblog', { data: data })
+                    .then(function (blogadded) {
+                        console.log(blogadded)
+                    })
+            })
+        })
+    </script>
+
+    <%- include('../../partials/footer.ejs') %>
